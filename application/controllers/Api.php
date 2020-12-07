@@ -91,6 +91,52 @@ class Api extends CI_Controller
 
   public function timeline()
   {
+    $id = $this->session->userdata('id');
+    $res = search_value('detail_project', 'project_id', $id);
+    $result = $this->db->where('project_detail_id', $res->id)->get('point_project')->result();
+    foreach ($result as $r) {
+      $check = search_value('detail_point', 'id_point', $r->point_id);
+      if ($check) {
+        $subpoint = 1;
+      } else {
+        $subpoint = 0;
+      }
+
+      $this->db->where('status !=', 1);
+      $success = $this->db->get_where('detail_point', ['id_point' => $r->point_id])->num_rows();
+      $point_id = $this->db->get_where('detail_point', ['id_point' => $r->point_id]);
+      if ($point_id->num_rows() > 1) {
+        $percent = $success * 100 / $point_id->num_rows();
+        if ($percent < 50) {
+          $color = 'danger';
+        } elseif ($percent > 50 && $percent < 80) {
+          $color = 'warning';
+        } elseif ($percent > 80 && $percent < 99) {
+          $color = 'info';
+        } else {
+          $color = 'success';
+        }
+      } else {
+        if ($r->status == 1) {
+          $color = 'success';
+        } else {
+          $color = 'danger';
+        }
+      }
+
+      $data['point'] = $r->point;
+      $data['point_id'] = $r->point_id;
+      $data['subpoint'] = $subpoint;
+      $data['description'] = $r->description;
+      $data['color'] = $color;
+      $data['status'] = $r->status;
+      $data['create_at'] = $r->create_at;
+      $data['create_by'] = $r->create_by;
+      $data['updated'] = date('h:i A', strtotime($r->updated));
+
+      $nested[] = $data;
+    }
+    echo json_encode($nested);
   }
 }
 

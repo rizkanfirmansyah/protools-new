@@ -184,7 +184,7 @@ function status_timeline($id, $point_id)
             $status = 'In Progress';
         } elseif ($res > 80 && $res < 99) {
             $icon = 'arrow-up';
-            $color = 'success';
+            $color = 'info';
             $status = 'Fixed';
         } else {
             $icon = 'check';
