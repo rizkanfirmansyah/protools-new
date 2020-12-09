@@ -1,8 +1,8 @@
 <link rel="stylesheet" href="<?= base_url('assets/private/css/timeline/') ?>style.css">
 <!-- <div class="page-wrapper"> -->
 <li class="nav-item">
-    <a href="#" class="nav-link icon-link" id="btnCreate">
-        <i class="mdi mdi-note-plus-outline"></i>
+    <a href="#" class="nav-link icon-link mt-1 text-primary" id="btnCreate">
+        <i class="mdi mdi-plus-box"></i>
     </a>
 </li>
 <li class="nav-item dropdown">
@@ -25,6 +25,9 @@
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card p-3">
                     <div class="col-md-12">
+                        <p id="haha">
+                            <small>haha</small>
+                        </p>
                         <h3 class="box-title mb-3">Timeline</h3>
                         <div class="white-box" id="bodyTimeline">
 

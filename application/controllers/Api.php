@@ -138,6 +138,12 @@ class Api extends CI_Controller
     }
     echo json_encode($nested);
   }
+
+  public function point()
+  {
+    $data = $this->api->getData('detail_point', 'id_point', $this->input->post('id'));
+    echo json_encode($data);
+  }
 }
 
 

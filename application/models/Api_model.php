@@ -14,9 +14,21 @@ class Api_model extends CI_Model
 
   // ------------------------------------------------------------------------
 
-  public function getData($table)
+  public function getData($table, $con = null, $parm = null)
   {
-    return $this->db->get($table)->result();
+    if ($con == null) {
+      $data = $this->db->get($table)->result();
+    } else {
+      if (is_array($con)) {
+        foreach ($con as $c) {
+          $data = $this->db->where($c);
+        }
+        $data = $this->db->get($table)->result();
+      } else {
+        $data = $this->db->where($con, $parm)->get($table)->result();
+      }
+    }
+    return $data;
   }
 
   // ------------------------------------------------------------------------

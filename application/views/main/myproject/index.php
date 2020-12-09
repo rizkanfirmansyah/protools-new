@@ -1,6 +1,7 @@
+<!-- <div class="page-wrapper"> -->
 <li class="nav-item">
-    <a href="#" class="nav-link icon-link" id="btnCreate">
-        <i class="mdi mdi-note-plus-outline"></i>
+    <a href="#" class="nav-link icon-link mt-1 text-primary" id="btnCreate">
+        <i class="mdi mdi-plus-box"></i>
     </a>
 </li>
 <li class="nav-item dropdown">
@@ -136,3 +137,4 @@
 
     </div>
     <!-- row end -->
+    <?php $this->load->view('main/myproject/additional/modal.php') ?>

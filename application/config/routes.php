@@ -28,6 +28,7 @@ $route['api/getparticipant'] = 'api/participant';
 $route['api/getuser'] = 'api/user';
 $route['sub_api/getuser'] = 'api/getuser';
 $route['api/gettimeline'] = 'api/timeline';
+$route['api/timeline/point'] = 'api/point';
 
 // process
 $route['join/project'] = 'process/join_project';

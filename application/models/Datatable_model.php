@@ -10,41 +10,83 @@ class Datatable_model extends CI_Model
     $this->load->database();
   }
 
-  public function allDataCount($table, $join, $parm, $condition = 'all')
+  public function allDataCount($table, $join, $parm, $condition = 'all', $rule)
   {
     if ($join != null) {
       foreach ($join as $tbjoin => $param) {
-        $query = $this->db->join($tbjoin, $param, 'left');
+        $query = $this->db->join($tbjoin, $param, $rule);
       }
       if ($condition == 'all') {
         $query = $this->db->get($table);
       } else {
-        $query = $this->db->where($parm, $condition)->get($table);
+        if (is_array($condition)) {
+          if ($parm == null) {
+            foreach ($condition as $c => $value) {
+              $query = $this->db->where($c, $value);
+            }
+          } else {
+            foreach ($condition as $c) {
+              $query = $this->db->where($parm, $c);
+            }
+          }
+          $query = $this->db->get($table);
+        } else {
+          $query = $this->db->where($parm, $condition)->get($table);
+        }
       }
     } else {
       if ($condition == 'all') {
         $query = $this->db->get($table);
       } else {
-        $query = $this->db->where($parm, $condition)->get($table);
+        if (is_array($condition)) {
+          if ($parm == null) {
+            foreach ($condition as $c => $value) {
+              $query = $this->db->where($c, $value);
+            }
+          } else {
+            foreach ($condition as $c) {
+              $query = $this->db->where($parm, $c);
+            }
+          }
+          $query = $this->db->get($table);
+        } else {
+          $query = $this->db->where($parm, $condition)->get($table);
+        }
       }
     }
     return $query->num_rows();
   }
 
-  public function allData($table, $join, $parm, $condition, $limit, $start, $col, $dir)
+  public function allData($table, $join, $parm, $condition, $rule, $limit, $start, $col, $dir)
   {
     if ($join != null) {
       foreach ($join as $tbjoin => $param) {
-        $query = $this->db->join($tbjoin, $param, 'left');
+        $query = $this->db->join($tbjoin, $param, $rule);
       }
       if ($condition == 'all') {
         $query = $this->db->limit($limit, $start)
           ->order_by($col, $dir)
           ->get($table);
       } else {
-        $query = $this->db->where($parm, $condition)->limit($limit, $start)
-          ->order_by($col, $dir)
-          ->get($table);
+        if (is_array($condition)) {
+          if ($parm == null) {
+            foreach ($condition as $c => $value) {
+              $query = $this->db->where($c, $value);
+            }
+          } else {
+            foreach ($condition as $c) {
+              $query = $this->db->where($parm, $c);
+            }
+          }
+          $query = $this->db->limit($limit, $start)
+            ->order_by($col, $dir)
+            ->get($table);
+        } else {
+          $query = $this->db->where($parm, $condition)
+            ->limit($limit, $start)
+            ->order_by($col, $dir)
+            ->get($table);
+        }
       }
     } else {
       if ($condition == 'all') {
@@ -52,9 +94,25 @@ class Datatable_model extends CI_Model
           ->order_by($col, $dir)
           ->get($table);
       } else {
-        $query = $this->db->where($parm, $condition)->limit($limit, $start)
-          ->order_by($col, $dir)
-          ->get($table);
+        if (is_array($condition)) {
+          if ($parm == null) {
+            foreach ($condition as $c => $value) {
+              $query = $this->db->where($c, $value);
+            }
+          } else {
+            foreach ($condition as $c) {
+              $query = $this->db->where($parm, $c);
+            }
+          }
+          $query = $this->db->limit($limit, $start)
+            ->order_by($col, $dir)
+            ->get($table);
+        } else {
+          $query = $this->db->where($parm, $condition)
+            ->limit($limit, $start)
+            ->order_by($col, $dir)
+            ->get($table);
+        }
       }
     }
 
@@ -65,7 +123,7 @@ class Datatable_model extends CI_Model
     }
   }
 
-  public function dataSearch($table, $join, $parm, $condition, $scol, $limit, $start, $search, $col, $dir)
+  public function dataSearch($table, $join, $parm, $condition, $rule, $scol, $limit, $start, $search, $col, $dir)
   {
     if (is_array($scol)) {
       foreach ($scol as $s) {
@@ -73,7 +131,7 @@ class Datatable_model extends CI_Model
       }
       if ($join != null) {
         foreach ($join as $tbjoin => $param) {
-          $query = $this->db->join($tbjoin, $param, 'left');
+          $query = $this->db->join($tbjoin, $param, $rule);
         }
       }
       if ($condition == 'all') {
@@ -82,11 +140,27 @@ class Datatable_model extends CI_Model
           ->order_by($col, $dir)
           ->get($table);
       } else {
-        $query = $this->db->where($parm, $condition)
-          ->like($scol, $search)
-          ->limit($limit, $start)
-          ->order_by($col, $dir)
-          ->get($table);;
+        if (is_array($condition)) {
+          if ($parm == null) {
+            foreach ($condition as $c => $value) {
+              $query = $this->db->where($c, $value);
+            }
+          } else {
+            foreach ($condition as $c) {
+              $query = $this->db->where($parm, $c);
+            }
+          }
+          $query = $this->db->like($scol, $search)
+            ->limit($limit, $start)
+            ->order_by($col, $dir)
+            ->get($table);
+        } else {
+          $query = $this->db->where($parm, $condition)
+            ->like($scol, $search)
+            ->limit($limit, $start)
+            ->order_by($col, $dir)
+            ->get($table);
+        }
       }
     } else {
       if ($condition == 'all') {
@@ -95,11 +169,27 @@ class Datatable_model extends CI_Model
           ->order_by($col, $dir)
           ->get($table);
       } else {
-        $query = $this->db->where($parm, $condition)
-          ->like($scol, $search)
-          ->limit($limit, $start)
-          ->order_by($col, $dir)
-          ->get($table);;
+        if (is_array($condition)) {
+          if ($parm == null) {
+            foreach ($condition as $c => $value) {
+              $query = $this->db->where($c, $value);
+            }
+          } else {
+            foreach ($condition as $c) {
+              $query = $this->db->where($parm, $c);
+            }
+          }
+          $query = $this->db->like($scol, $search)
+            ->limit($limit, $start)
+            ->order_by($col, $dir)
+            ->get($table);
+        } else {
+          $query = $this->db->where($parm, $condition)
+            ->like($scol, $search)
+            ->limit($limit, $start)
+            ->order_by($col, $dir)
+            ->get($table);
+        }
       }
     }
 
@@ -111,7 +201,7 @@ class Datatable_model extends CI_Model
     }
   }
 
-  public function SearchCount($table, $join, $parm, $condition, $scol, $search)
+  public function SearchCount($table, $join, $parm, $condition, $rule, $scol, $search)
   {
     if (is_array($scol)) {
       foreach ($scol as $s) {
@@ -119,13 +209,27 @@ class Datatable_model extends CI_Model
       }
       if ($join != null) {
         foreach ($join as $tbjoin => $param) {
-          $query = $this->db->join($tbjoin, $param, 'left');
+          $query = $this->db->join($tbjoin, $param, $rule);
         }
       }
       if ($condition == 'all') {
         $query = $this->db->get($table);
       } else {
-        $query = $this->db->where($parm, $condition)->get($table);
+        if (is_array($condition)) {
+          if ($parm == null) {
+            foreach ($condition as $c => $value) {
+              $query = $this->db->where($c, $value);
+            }
+          } else {
+            foreach ($condition as $c) {
+              $query = $this->db->where($parm, $c);
+            }
+          }
+          $query = $this->db
+            ->get($table);
+        } else {
+          $query = $this->db->where($parm, $condition)->get($table);
+        }
       }
     } else {
       if ($condition == 'all') {
@@ -133,9 +237,24 @@ class Datatable_model extends CI_Model
           $this->db->like($scol, $search)
           ->get($table);;
       } else {
-        $query = $this->db->where($parm, $condition)
-          ->like($scol, $search)
-          ->get($table);;
+        if (is_array($condition)) {
+          if ($parm == null) {
+            foreach ($condition as $c => $value) {
+              $query = $this->db->where($c, $value);
+            }
+          } else {
+            foreach ($condition as $c) {
+              $query = $this->db->where($parm, $c);
+            }
+          }
+          $query = $this->db
+            ->like($scol, $search)
+            ->get($table);
+        } else {
+          $query = $this->db->where($parm, $condition)
+            ->like($scol, $search)
+            ->get($table);
+        }
       }
     }
     return $query->num_rows();

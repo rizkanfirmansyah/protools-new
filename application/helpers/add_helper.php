@@ -213,3 +213,59 @@ function search_value($table, $parm, $id)
 
     return $add->db->get_where($table, [$parm => $id])->row();
 }
+
+function progress_project($id)
+{
+    $add = get_instance();
+    $text = ' ';
+    $res = $add->db->select('*')->from('detail_project')->join('point_project', 'project_detail_id=id')->where('project_id', $id)->get();
+    if ($res->num_rows() < 1) {
+        $color = 'secondary';
+        $width = '100';
+        $max = '100';
+        $min = '0';
+        $value = '100';
+        $text = 'progress not found';
+    } else {
+        $val = [];
+        $valmax = [];
+        $valmin = 0;
+        $result = $res->result();
+        foreach ($result as $data) {
+            $res = $add->db->get_where('detail_point', ['id_point' => $data->point_id])->num_rows();
+            if ($res == 0) {
+                array_push($val, 1);
+                if ($data->status == '1') {
+                    array_push($valmax, 1);
+                }
+            } else {
+                array_push($val, $res);
+            }
+
+            $resmax = $add->db->get_where('detail_point', ['id_point' => $data->point_id])->result();
+            foreach ($resmax as $rm) {
+                if ($rm->status == '1') {
+                    array_push($valmax, 1);
+                }
+            }
+            // $valmax = $add->db->where('status', '1')->get_where('point_project', ['project_detail_id' => $data->project_detail_id])->num_rows();
+        }
+        $width = number_format(array_sum($valmax) * 100 / array_sum($val), 0);
+        $max = array_sum($valmax);
+        $min = '0';
+        $value = array_sum($val);
+        $text = number_format(array_sum($valmax) * 100 / array_sum($val), 0) . '%';
+        if ($width < 50) {
+            $color = 'danger';
+        } else if ($width > 50 && $width <= 80) {
+            $color = 'warning';
+        } else if ($width > 80 && $width <= 95) {
+            $color = 'info';
+        } else {
+            $color = 'success';
+        }
+    }
+    return '<div class="progress">
+                <div class="progress-bar bg-' . $color . ' text-center" role="progressbar" style="width: ' . $width . '%" aria-valuenow="' . $value . '" aria-valuemin="' . $min . '" aria-valuemax="' . $max . '"> ' . $text . '</div>
+            </div>';
+}
