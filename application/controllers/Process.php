@@ -215,6 +215,33 @@ class Process extends CI_Controller
     $this->session->unset_userdata($data);
     redirect('login');
   }
+
+  public function insert_timeline()
+  {
+    $this->process->insert_timeline();
+  }
+
+  public function delete_timeline()
+  {
+    $this->process->delete_timeline();
+  }
+
+  public function check_timeline()
+  {
+    $this->process->check_timeline();
+  }
+
+  // public function insert_data()
+  // {
+  //   $data = $this->db->get('project')->result();
+
+  //   foreach ($data as $d) {
+  //     $data = [
+  //       'project_id' => $d->id
+  //     ];
+  //     $this->db->insert('detail_project', $data);
+  //   }
+  // }
 }
 
 

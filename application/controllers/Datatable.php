@@ -203,8 +203,19 @@ class Datatable extends CI_Controller
       $i = 1;
       foreach ($posts as $post) {
 
-        $edit =  ' <a href="#" id="timelineProject" data-id="' . $post->project_id . '" class="badge badge-info"><i class="mdi mdi-table-edit"></i></a>';
-        $delete = ' <a href="#" id="outProject" data-id="' . $post->project_id . '" class="badge badge-danger"><i class="mdi mdi-arrow-right-bold-circle-outline"></i></a>';
+        $edit =  ' <a style="cursor:pointer;" id="timelineProject" data-id="' . $post->point_id . '" class="badge badge-info"><i class="mdi mdi-table-edit"></i></a>';
+        $delete = ' <a style="cursor:pointer;" id="deletePoint" data-id="' . $post->point_id . '" class="badge badge-warning"><i class="mdi mdi-comment-remove-outline"></i></a>';
+        $view =  ' <a style="cursor:pointer;" id="viewPoint" data-id="' . $post->point_id . '" class="badge badge-primary"><i class="mdi mdi-view-list"></i></a>';
+        if ($post->status == '1') {
+          $color = 'danger';
+          $sPoint = 0;
+          $icon = 'mdi mdi-close-circle-outline';
+        } else {
+          $sPoint = 1;
+          $icon = 'mdi mdi-check-circle-outline';
+          $color = 'success';
+        }
+        $btn = ' <a style="cursor:pointer;" id="checkPoint" data-id="' . $post->point_id . '" data-status="' . $sPoint . '" class="badge badge-' . $color . '"><i class="' . $icon . '"></i></a>';
         $urlImg = base_url('assets/private/img/');
 
         $nestedData['id']           = $i++;
@@ -213,7 +224,7 @@ class Datatable extends CI_Controller
         $nestedData['status']       = status_timeline($post->status, $post->point_id);
         $nestedData['updated']      = date('d-M-Y', strtotime($post->updated));
         $nestedData['create_by']    = $post->create_by;
-        $nestedData['button']       = $edit . $delete;
+        $nestedData['button']       = $edit . $delete . '<br>' . $view . $btn;
 
         $data[] = $nestedData;
       }
@@ -276,7 +287,7 @@ class Datatable extends CI_Controller
     if (!empty($posts)) {
       foreach ($posts as $post) {
 
-        $edit =  ' <a href="#" id="timelineProject" data-id="' . $post->id . '" class="badge badge-info"><i class="mdi mdi-table-edit"></i></a>';
+        $edit =  ' <a href="' . base_url() . 'id/detail?title=' . $post->title . '&idp=' . $post->id . '" class="badge badge-info"><i class="mdi mdi-book-open"></i></a>';
         $delete = ' <a href="#" id="takeThisProject" data-id="' . $post->id . '" class="badge badge-success"><i class="mdi mdi-arrow-left-bold-circle-outline"></i></a>';
         $urlImg = base_url('assets/private/img/');
 

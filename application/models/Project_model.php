@@ -44,6 +44,7 @@ class Project_model extends CI_Model
     return $this->db->get_where('rules', ['project_id' => $id])->result();
   }
 
+
   // ------------------------------------------------------------------------
 
 }

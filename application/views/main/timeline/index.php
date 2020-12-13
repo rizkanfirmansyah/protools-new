@@ -25,9 +25,7 @@
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card p-3">
                     <div class="col-md-12">
-                        <p id="haha">
-                            <small>haha</small>
-                        </p>
+
                         <h3 class="box-title mb-3">Timeline</h3>
                         <div class="white-box" id="bodyTimeline">
 
@@ -109,3 +107,5 @@
         </div>
 
     </div>
+
+    <?php $this->load->view('main/timeline/additional/modal'); ?>

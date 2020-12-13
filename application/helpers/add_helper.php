@@ -257,7 +257,7 @@ function progress_project($id)
         $text = number_format(array_sum($valmax) * 100 / array_sum($val), 0) . '%';
         if ($width < 50) {
             $color = 'danger';
-        } else if ($width > 50 && $width <= 80) {
+        } else if ($width >= 50 && $width <= 80) {
             $color = 'warning';
         } else if ($width > 80 && $width <= 95) {
             $color = 'info';

@@ -41,6 +41,9 @@ $route['update/status'] = 'process/update_status';
 $route['change/password'] = 'process/change_password';
 $route['delete/user'] = 'process/delete_user';
 $route['login/user'] = 'process/login';
+$route['timeline/insert'] = 'process/insert_timeline';
+$route['timeline/delete'] = 'process/delete_timeline';
+$route['timeline/check'] = 'process/check_timeline';
 
 // Datatables
 $route['datatable/table/(:segment)'] = 'datatable/loadtable/$1';

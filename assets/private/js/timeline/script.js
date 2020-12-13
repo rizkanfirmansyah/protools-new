@@ -34,32 +34,37 @@ function timeline(id){
             },
             success:function(response){
                 let btn = ''
-                response.forEach(res => {
-                    if (res.subpoint != 0) {
+                // console.log(response);
+                if (response.code == 404) {
+                    html = `<h2 class="text-center">${response.text}</h2>`
+                }else{
+                    response.forEach(res => {
+                        if (res.subpoint != 0) {
                         btn = `<a class="badge badge-dark text-white subpointBtnDown" id="subpointBtnDown${res.point_id}" data-id="${res.point_id}" style="cursor:pointer"><i class="mdi mdi-arrow-down-drop-circle"></i></a>
                         <div id="additionalTimeline${res.point_id}" style="display:none;">
-                            <img src="${baseurl}assets/private/img/loader_timeline.gif" id="imgLoader" style="width:50px;">
+                        <img src="${baseurl}assets/private/img/loader_timeline.gif" id="imgLoader" style="width:50px;">
                         </div>
                         `
                     }else{
                         btn = ''
                     }
                     html += `
-                    <div class="vertical-timeline vertical-timeline--animate vertical-timeline--one-column">
-                        <div class="vertical-timeline-item vertical-timeline-element">
+                        <div class="vertical-timeline vertical-timeline--animate vertical-timeline--one-column">
+                            <div class="vertical-timeline-item vertical-timeline-element">
                             <div> <span class="vertical-timeline-element-icon bounce-in"> <i class="badge badge-dot badge-dot-xl badge-${res.color}"> </i> </span>
-                                 <div class="vertical-timeline-element-content bounce-in">
+                                    <div class="vertical-timeline-element-content bounce-in">
                                     <h4 class="timeline-title">${res.point}</h4>
-                                    <p class="text-muted" style="margin-top:-5px;">${res.create_by} at ${res.create_at}</p>
-                                    <p class="text-capitalize">${res.description} </p> <span class="vertical-timeline-element-date">${res.updated}</span>
-                                    ${btn}
-                                   
-                            </div>
+                                        <p class="text-muted" style="margin-top:-5px;">${res.create_by} at ${res.create_at}</p>
+                                        <p class="text-capitalize">${res.description} </p> <span class="vertical-timeline-element-date">${res.updated}</span>
+                                        ${btn}
+                                        
+                                </div>
+                                </div>
                         </div>
-                    </div>
-                    `
-                    
-                });
+                        `
+                        
+                    });
+                }   
                 // console.log(html);
                 $('#bodyTimeline').html(title + html)
             }
@@ -162,7 +167,7 @@ $(document).ready(function(){
                     id: id
                 },
                 success:function(response){
-                    let res = JSON.parse(response)
+                    let res = JSON.parse(response)      
                     let status = ''
                     res.forEach( data =>{
                         if(data.status == 0){
@@ -196,6 +201,60 @@ $(document).ready(function(){
     })
 
     $('#btnCreate').on('click', function(){
-        alert()
+        $('#createTimeline').modal('show')
     })
+
+    $('#savepoint').on('click', function(){
+        let point = $('#pointName').val()
+        let desc = $('#pointDescription').val()
+        
+        $.ajax({
+            url : baseurl + 'timeline/insert',
+            type : 'POST',
+            data:{
+                point : point,
+                desc : desc,
+            },
+            success:function(res){
+                refresh_table('#datatable')
+            },
+            error:function(err){
+                show_error(err)
+            }
+        })
+    })
+
+    $('#datatable').on('click', '#deletePoint', function () {
+        $.ajax({
+            url:baseurl + 'timeline/delete',
+            type:'POST',
+            data:{
+                id:$(this).data('id')
+            },
+            success:function(res){
+                refresh_table('#datatable')
+            },
+            error:function(err){
+                show_error(err)
+            }
+        })
+    })
+
+    $('#datatable').on('click', '#checkPoint', function () {
+        $.ajax({
+            url:baseurl + 'timeline/check',
+            type:'POST',
+            data:{
+                id:$(this).data('id'),
+                stats:$(this).data('status')
+            },
+            success:function(res){
+                refresh_table('#datatable')
+            },
+            error:function(err){
+                show_error(err)
+            }
+        })
+    })
+
 })
