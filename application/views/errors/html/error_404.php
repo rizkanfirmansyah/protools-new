@@ -12,7 +12,7 @@ $baseurl = 'http://' . $_SERVER['HTTP_HOST'] . '/chat/';
 	<meta name="keywords" content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 4 admin, bootstrap 4, css3 dashboard, bootstrap 4 dashboard, Ample lite admin bootstrap 4 dashboard, frontend, responsive bootstrap 4 admin template, Ample admin lite dashboard bootstrap 4 dashboard template">
 	<meta name="description" content="Ample Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
 	<meta name="robots" content="noindex,nofollow">
-	<title>Ample Admin Lite Template by WrapPixel</title>
+	<title>ProTools | Project To do List</title>
 	<link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/" />
 	<link rel="icon" type="<?= $baseurl . 'assets/' ?>image/png" sizes="16x16" href="plugins/images/favicon.png">
 	<link href="<?= $baseurl . 'assets/' ?>css/style.min.css" rel="stylesheet">

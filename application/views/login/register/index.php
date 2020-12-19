@@ -29,7 +29,7 @@
                                 <i class="mdi mdi-lock-outline text-primary"></i>
                             </span>
                         </div>
-                        <input type="password" class="form-control form-control-lg border-left-0" id="password" placeholder="Username">
+                        <input type="password" class="form-control form-control-lg border-left-0" id="password" placeholder="Password">
                         <div class="input-group-prepend">
                             <a id="generatePassword" style="cursor: pointer;" class="btn btn-primary"><i class="mdi mdi-account-key"></i></a>
                             <a id="seePassword" style="cursor: pointer;" class="btn btn-success text-white"><i class="mdi mdi-eye-off" id="iconicPassword"></i></a>
@@ -55,7 +55,7 @@
                             <div class="col-sm-4">
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                        <input type="radio" class="form-check-input membership" id="membership1" value="" checked="">
+                                        <input type="radio" class="form-check-input membership" name="optionsRadios" id="membership1" value="participant">
                                         Participant
                                         <i class="input-helper"></i></label>
                                 </div>
@@ -63,7 +63,7 @@
                             <div class="col-sm-5">
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                        <input type="radio" class="form-check-input membership" id="membership2" value="option2">
+                                        <input type="radio" class="form-check-input membership" name="optionsRadios" id="membership2" value="user">
                                         User
                                         <i class="input-helper"></i></label>
                                 </div>
@@ -71,16 +71,23 @@
                         </div>
                     </div>
                 </div>
-                <div class="mb-4">
+                <div class="form-group" id="codeHtml">
+
+                </div>
+                <div class="">
                     <div class="form-check  form-check-success">
                         <label class="form-check-label text-muted">
-                            <input type="checkbox" class="form-check-inpu t">
+                            <input type="checkbox" class="form-check-input" id="terms">
                             I agree to all Terms &amp; Conditions
                             <i class="input-helper"></i></label>
                     </div>
                 </div>
+                <div id="robot">
+
+                </div>
+                <div class="row mx-1" id="alert"></div>
                 <div class="mt-3">
-                    <a class="btn btn-block btn-success btn-lg font-weight-medium auth-form-btn" href="../../index.html">SIGN UP</a>
+                    <a class="btn btn-block btn-success btn-lg font-weight-medium auth-form-btn" id="signUp" href="#">SIGN UP</a>
                 </div>
                 <div class="text-center mt-4 font-weight-light">
                     Already have an account? <a href="<?= base_url('login') ?>" class="text-success">Login</a>

@@ -10,6 +10,13 @@ function sAlert(title, subtitle, expression){
   return swal(title, subtitle, expression);
 }
 
+function proAlert(title, id, expression){
+  let open = `<small class="alert alert-${expression} col-md-12"> `
+  let close = `</small>`
+  let alert = `${open} ${title} ${close}`
+  $(`#${id}`).html(alert);
+}
+
   date = new Date();
   detik = date.getSeconds();
   menit = date.getMinutes();
@@ -216,4 +223,22 @@ function logo(){
     $('#sidebarLogoMini').hide()
     $('#sidebarLogo').show()
   }
+}
+
+function cekForm(array)
+{
+  let id;
+    let res = checkValid(array);
+    let value = ''
+    res.forEach(result =>{
+        value += `<i class="mdi mdi-alert-circle-outline"></i>  ${result} do not empty <br>`
+    })
+    if(res.length > 0){
+        proAlert(value, 'alert', 'danger')
+        id = 0;
+      }else{
+        $('#alert').html('')
+        id = 1;
+    }
+    return id;
 }

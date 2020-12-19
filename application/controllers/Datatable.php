@@ -203,9 +203,9 @@ class Datatable extends CI_Controller
       $i = 1;
       foreach ($posts as $post) {
 
-        $edit =  ' <a style="cursor:pointer;" id="timelineProject" data-id="' . $post->point_id . '" class="badge badge-info"><i class="mdi mdi-table-edit"></i></a>';
+        $edit =  ' <a style="cursor:pointer;" id="editTimeline" data-id="' . $post->point_id . '" class="badge badge-info"><i class="mdi mdi-table-edit"></i></a>';
         $delete = ' <a style="cursor:pointer;" id="deletePoint" data-id="' . $post->point_id . '" class="badge badge-warning"><i class="mdi mdi-comment-remove-outline"></i></a>';
-        $view =  ' <a style="cursor:pointer;" id="viewPoint" data-id="' . $post->point_id . '" class="badge badge-primary"><i class="mdi mdi-view-list"></i></a>';
+        $view =  ' <a style="cursor:pointer;" id="timelineProject" data-id="' . $post->point_id . '" class="badge badge-primary"><i class="mdi mdi-view-list"></i></a>';
         if ($post->status == '1') {
           $color = 'danger';
           $sPoint = 0;
@@ -299,6 +299,82 @@ class Datatable extends CI_Controller
         $nestedData['deadline']     = $post->deadline;
         $nestedData['create_by']    = $post->create_by;
         $nestedData['button']       = $edit . $delete;
+
+        $data[] = $nestedData;
+      }
+    }
+
+    $json_data = array(
+      "draw"            => intval($this->input->post('draw')),
+      "recordsTotal"    => intval($totalData),
+      "recordsFiltered" => intval($totalFiltered),
+      "data"            => $data
+    );
+
+    echo json_encode($json_data);
+  }
+
+  private function point_timeline($id)
+  {
+    $column = array(
+      0 => 'point_name',
+      1 => 'updated',
+      2 => 'status',
+      3 => 'create_by',
+      4 => 'update_by',
+      5 => 'thumbnail',
+    );
+
+    $table = 'detail_point';
+    $limit  = $this->input->post('length');
+    $start  = $this->input->post('start');
+    $order  = $column[$this->input->post('order')[0]['column']];
+    $dir    = $this->input->post('order')[0]['dir'];
+    $scol = ['point_name',];
+    $join = null;
+    $rule = null;
+    $condition = $this->session->userdata('timeline_id');
+    $parm = 'id_point';
+    $totalData = $this->datatable->allDataCount($table, $join, $parm, $condition, $rule);
+
+    $totalFiltered = $totalData;
+
+    if (empty($this->input->post('search')['value'])) {
+      $posts = $this->datatable->allData($table, $join, $parm, $condition, $rule, $limit, $start, $order, $dir);
+    } else {
+      $search = $this->input->post('search')['value'];
+
+      $posts =  $this->datatable->DataSearch($table, $join, $parm, $condition, $rule, $scol, $limit, $start, $search, $order, $dir);
+
+      $totalFiltered = $this->datatable->SearchCount($table, $join, $parm, $condition, $rule, $scol, $search);
+    }
+
+    $data = array();
+    // var_dump($condition);
+    if (!empty($posts)) {
+      $i = 1;
+      foreach ($posts as $post) {
+
+        $edit =  ' <a style="cursor:pointer;" id="editTimeline" data-id="' . $post->id . '" class="badge badge-info"><i class="mdi mdi-table-edit"></i></a>';
+        $delete = ' <a style="cursor:pointer;" id="deletePoint" data-id="' . $post->id . '" class="badge badge-warning"><i class="mdi mdi-comment-remove-outline"></i></a>';
+        if ($post->status == '1') {
+          $color = 'danger';
+          $icon = 'mdi mdi-close-circle-outline';
+          $sPoint = 0;
+        } else {
+          $sPoint = 1;
+          $icon = 'mdi mdi-check-circle-outline';
+          $color = 'success';
+        }
+        $btn = ' <a style="cursor:pointer;" id="checkPoint" data-id="' . $post->id . '" data-status="' . $sPoint . '" class="badge badge-' . $color . '"><i class="' . $icon . '"></i></a>';
+
+        $nestedData['id']        = $i++;
+        $nestedData['point_name']        = $post->point_name;
+        $nestedData['updated']    = date('d-M-Y', strtotime($post->updated));
+        $nestedData['create_by']     = $post->create_by;
+        $nestedData['update_by']    = $post->update_by;
+        $nestedData['status']    = status_icon_full($post->status, 'all');
+        $nestedData['button']       = $edit . $delete  . $btn;
 
         $data[] = $nestedData;
       }

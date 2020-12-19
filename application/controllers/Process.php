@@ -187,26 +187,14 @@ class Process extends CI_Controller
 
   private function _proccessLogin()
   {
-    $username = $this->input->post('username');
-    $password = $this->input->post('password');
-    $tutorial = $this->input->post('tutorial');
-    $data = $this->db->get_where('user', ['username' => $username])->row();
-    if ($data) {
-      if (password_verify($password, $data->password)) {
-        if ($data->status == 1) {
-          $error = ['code' => 'success'];
-          $session = ['username' => $username, 'tutorial' => $tutorial];
-          $this->session->set_userdata($session);
-        } else {
-          $error = ['code' => 'error', 'error' => 'User not active, Please try Again and Activated account with click message in your email!!'];
-        }
-      } else {
-        $error = ['code' => 'error', 'error' => 'Password wrong, Please try Again!!'];
-      }
-    } else {
-      $error = ['code' => 'error', 'error' => 'Username Not Found, Please register and create a new Account!'];
-    }
+    $error = $this->process->login();
     echo json_encode($error);
+  }
+
+  public function sign_up()
+  {
+    $data = $this->process->sign();
+    echo json_encode($data);
   }
 
   public function logout()
@@ -221,14 +209,29 @@ class Process extends CI_Controller
     $this->process->insert_timeline();
   }
 
+  public function insert_point()
+  {
+    $this->process->insert_point();
+  }
+
   public function delete_timeline()
   {
     $this->process->delete_timeline();
   }
 
+  public function delete_point()
+  {
+    $this->process->delete_point();
+  }
+
   public function check_timeline()
   {
     $this->process->check_timeline();
+  }
+
+  public function check_point()
+  {
+    $this->process->check_point();
   }
 
   // public function insert_data()

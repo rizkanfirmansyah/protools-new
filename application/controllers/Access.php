@@ -78,6 +78,16 @@ class Access extends CI_Controller
     $this->session->set_userdata($data);
     echo json_encode($secret);
   }
+
+  public function set_timeline()
+  {
+    $id = $this->input->post('id');
+    $secret = $this->input->post('secret');
+    $data = ['sec_timeline' => $secret, 'timeline_id' => $id];
+
+    $this->session->set_userdata($data);
+    echo json_encode($secret);
+  }
 }
 
 

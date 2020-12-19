@@ -257,4 +257,25 @@ $(document).ready(function(){
         })
     })
 
+    
+    $('#datatable').on('click', '#timelineProject', function(){
+        var id = $(this).data('id');
+        let res = generate();
+        $.ajax({
+            url : baseurl + 'set/access/timeline',
+            type:'POST',
+            data:{
+                secret:res,
+                id:id
+            },
+            success:function(res){
+                let data = JSON.parse(res)
+                document.location.href = baseurl + `id/timeline/point?secRSA=${data}&timelineId=${id}`;
+            },
+            error:function(err){
+                show_error(err);
+            }
+        })
+    })
+
 })

@@ -1,4 +1,5 @@
-function login(alert){
+function login(){
+    let alert = '<small class="alert alert-danger col-md-12"> '
     let tutor = ''
     if($('#tutorial').prop('checked')){
         tutor = 'yes';
@@ -28,27 +29,14 @@ function login(alert){
     })
 }
 
-function cekLogin()
-{
-    let alert = '<small class="alert alert-danger col-md-12"> '
-    let res = checkValid(['username', 'password']);
-    let value = ''
-    res.forEach(result =>{
-        value += `<i class="mdi mdi-alert-circle-outline"></i>  ${result} do not empty <br>`
-    })
-    if(res.length > 0){
-        $('#alert').html(alert + value + '</small>')
-    }else{
-        $('#alert').html('')
-        login(alert)
-    }
-}
-
 $(document).ready(function() {
 
     $(this).on('keyup', function(e){
         if(e.keyCode == 13){
-                cekLogin()
+            let id = cekForm(['username', 'password'])
+            if(id == 1){
+                login()
+            }
         }
     })
 

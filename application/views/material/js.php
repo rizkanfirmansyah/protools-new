@@ -20,7 +20,7 @@
 
 <!-- PRIVATE JS INCLUDE -->
 <?php if (url(3) != null) : ?>
-    <script src="<?= base_url('assets/private/') . url(3) ?>/script.js"></script>
+    <script src="<?= base_url('assets/private/js/') . url(3) ?>/script.js"></script>
 <?php elseif (url(2) != null) : ?>
     <script src=" <?= base_url('assets/private/js/') . url(2) ?>/script.js"> </script>
 <?php elseif (url(1) != null) : ?>

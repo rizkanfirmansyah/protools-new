@@ -20,12 +20,20 @@ function status_icon($id)
     }
 }
 
-function status_icon_full($id)
+function status_icon_full($id, $parm = null)
 {
-    if ($id == 1) {
-        return "<i class='mdi mdi-check text-success'></i> ";
+    if ($parm == null) {
+        if ($id == 1) {
+            return "<i class='mdi mdi-check text-success'></i> ";
+        } else {
+            return "<i class='mdi mdi-remove text-danger'></i> ";
+        }
     } else {
-        return "<i class='mdi mdi-remove text-danger'></i> ";
+        if ($id == 1) {
+            return "<i class='mdi mdi-check text-success'>Completed</i> ";
+        } else {
+            return "<i class='mdi mdi mdi-close text-danger'>Pending</i> ";
+        }
     }
 }
 
@@ -160,6 +168,24 @@ function check_access()
     }
 }
 
+function check_access_point()
+{
+    $add = get_instance();
+    $id = $add->session->userdata('id');
+    $code = $_GET['secRSA'];
+    $secret = $add->session->userdata('sec_timeline');
+    $username = $add->session->userdata('username');
+    $res = $add->db->get_where('access_project', ['project_id' => $id, 'user_id' => $username]);
+
+    if ($res->num_rows() > 0) {
+        if ($code != $secret) {
+            show_404();
+        }
+    } else {
+        show_404();
+    }
+}
+
 
 function status_timeline($id, $point_id)
 {
@@ -178,7 +204,7 @@ function status_timeline($id, $point_id)
             $icon = 'arrow-down';
             $color = 'danger';
             $status = 'Pending';
-        } elseif ($res > 50 && $res < 80) {
+        } elseif ($res >= 50 && $res < 80) {
             $icon = 'arrow-right';
             $color = 'warning';
             $status = 'In Progress';

@@ -50,6 +50,18 @@ class Home extends CI_Controller
     check_access();
     $this->load->view('template/id/layout');
   }
+
+  public function point_timeline()
+  {
+    check_session();
+    check_access_point();
+    $this->load->view('template/id/layout');
+  }
+
+  public function maintanance()
+  {
+    $this->load->view('errors/maintanance');
+  }
 }
 
 

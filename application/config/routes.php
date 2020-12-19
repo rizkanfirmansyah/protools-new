@@ -15,6 +15,7 @@ $route['id/myproject'] = 'home';
 $route['id/user'] = 'home';
 $route['id/detail'] = 'home/detail';
 $route['id/timeline'] = 'home/timeline';
+$route['id/timeline/point'] = 'home/point_timeline';
 $route['login'] = 'home/login';
 $route['register'] = 'home/login';
 
@@ -42,8 +43,12 @@ $route['change/password'] = 'process/change_password';
 $route['delete/user'] = 'process/delete_user';
 $route['login/user'] = 'process/login';
 $route['timeline/insert'] = 'process/insert_timeline';
+$route['point/insert'] = 'process/insert_point';
 $route['timeline/delete'] = 'process/delete_timeline';
+$route['point/delete'] = 'process/delete_point';
 $route['timeline/check'] = 'process/check_timeline';
+$route['point/check'] = 'process/check_point';
+$route['sign/up'] = 'process/sign_up';
 
 // Datatables
 $route['datatable/table/(:segment)'] = 'datatable/loadtable/$1';
@@ -54,6 +59,7 @@ $route['useraccess/position'] = 'access/user_position';
 $route['checkuser/role'] = 'access/user_role';
 $route['out/project'] = 'access/out_project';
 $route['set/access/project'] = 'access/set_project';
+$route['set/access/timeline'] = 'access/set_timeline';
 
 // Dumping
 $route['to/dump/(:any)'] = 'process/table_dump/$1';
